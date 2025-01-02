@@ -1492,6 +1492,31 @@ IMPLOT3D_TMP void PlotSurface(const char* label_id, const T* xs, const T* ys, co
 CALL_INSTANTIATE_FOR_NUMERIC_TYPES()
 #undef INSTANTIATE_MACRO
 
+#ifdef IMGUI_BUNDLE_PYTHON_API
+// A version of PlotSurface whose API is easier to port to Python
+//    (params xs_count, ys_count and zs_count are removed in the Python API, but are used in the bindings code generation)
+IMPLOT3D_TMP void PlotSurface(
+        const char* label_id,
+        const T* xs, int xs_count,
+        const T* ys, int ys_count,
+        const T* zs, int zs_count,
+        int x_count, int y_count,
+        double scale_min, double scale_max,
+        const ImPlot3DSpec& spec)
+{
+    IM_ASSERT(xs_count == x_count * y_count);
+    IM_ASSERT(ys_count == x_count * y_count);
+    IM_ASSERT(zs_count == x_count * y_count);
+    PlotSurface(label_id, xs, ys, zs, x_count, y_count, scale_min, scale_max, spec);
+}
+#define INSTANTIATE_MACRO(T) \
+    template IMPLOT3D_API void PlotSurface<T>(const char* label_id, const T* xs, int xs_count, const T* ys, int ys_count, const T* zs, int zs_count, int x_count, int y_count, double scale_min, double scale_max, const ImPlot3DSpec& spec);
+CALL_INSTANTIATE_FOR_NUMERIC_TYPES()
+#undef INSTANTIATE_MACRO
+
+#endif // IMGUI_BUNDLE_PYTHON_API
+
+
 //-----------------------------------------------------------------------------
 // [SECTION] PlotMesh
 //-----------------------------------------------------------------------------
