@@ -654,11 +654,33 @@ IMPLOT3D_TMP void PlotTriangle(const char* label_id, const T* xs, const T* ys, c
 // Plots quads in 3D. Every 4 consecutive points define a quadrilateral
 IMPLOT3D_TMP void PlotQuad(const char* label_id, const T* xs, const T* ys, const T* zs, int count, const ImPlot3DSpec& spec = ImPlot3DSpec());
 
+// [ADAPT_IMGUI_BUNDLE]
+#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
 // Plot the surface defined by a grid of vertices. The grid is defined by the x and y arrays, and the z array contains the height of each vertex. A
 // total of x_count * y_count vertices are expected for each array. Leave #scale_min and #scale_max both at 0 for automatic color scaling, or set them
 // to a predefined range
 IMPLOT3D_TMP void PlotSurface(const char* label_id, const T* xs, const T* ys, const T* zs, int x_count, int y_count, double scale_min = 0.0,
                               double scale_max = 0.0, const ImPlot3DSpec& spec = ImPlot3DSpec());
+#endif
+#ifdef IMGUI_BUNDLE_PYTHON_API
+// A version of PlotSurface whose API is easier to port to Python
+//    (params xs_count, ys_count and zs_count are removed in the Python API, but are used in the bindings code generation)
+
+// Plot the surface defined by a grid of vertices. The grid is defined by the x and y arrays,
+// and the z array contains the height of each vertex.
+// A total of x_count * y_count vertices are expected for each array.
+// Leave #scale_min and #scale_max both at 0 for automatic color scaling, or set them to a predefined range.
+IMPLOT3D_TMP void PlotSurface(
+    const char* label_id,
+    const T* xs, int xs_count,
+    const T* ys, int ys_count,
+    const T* zs, int zs_count,
+    int x_count, int y_count,
+    double scale_min = 0.0, double scale_max = 0.0,
+    const ImPlot3DSpec& spec = ImPlot3DSpec()
+    );
+#endif
+// [/ADAPT_IMGUI_BUNDLE]
 
 // [ADAPT_IMGUI_BUNDLE]
 #ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
