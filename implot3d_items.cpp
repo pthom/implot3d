@@ -1400,6 +1400,13 @@ void PlotMesh(const char* label_id, const ImPlot3DPoint* vtx, const unsigned int
     }
 }
 
+#ifdef IMGUI_BUNDLE_PYTHON_API
+void PlotMesh(const char* label_id, const Mesh& mesh, ImPlot3DMeshFlags flags)
+{
+    PlotMesh(label_id, mesh.Points.data(), mesh.Idx.data(), (int)mesh.Points.size(), (int)mesh.Idx.size(), flags);
+}
+#endif // IMGUI_BUNDLE_PYTHON_API
+
 //-----------------------------------------------------------------------------
 // [SECTION] PlotImage
 //-----------------------------------------------------------------------------
