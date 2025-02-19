@@ -1555,6 +1555,13 @@ void PlotMesh(const char* label_id, const ImPlot3DPoint* vtx, const unsigned int
     PlotMesh<double>(label_id, &vtx->x, &vtx->y, &vtx->z, idxs, vtx_count, idx_count, s);
 }
 
+#ifdef IMGUI_BUNDLE_PYTHON_API
+void PlotMesh(const char* label_id, const Mesh& mesh, const ImPlot3DSpec& spec)
+{
+    PlotMesh(label_id, mesh.Points.data(), mesh.Idx.data(), (int)mesh.Points.size(), (int)mesh.Idx.size(), spec);
+}
+#endif // IMGUI_BUNDLE_PYTHON_API
+
 //-----------------------------------------------------------------------------
 // [SECTION] PlotImage
 //-----------------------------------------------------------------------------
