@@ -431,7 +431,20 @@ IMPLOT3D_TMP void PlotSurface(
 #endif
 // [/ADAPT_IMGUI_BUNDLE]
 
-IMPLOT3D_API void PlotMesh(const char* label_id, const ImPlot3DPoint* vtx, const unsigned int* idx, int vtx_count, int idx_count, ImPlot3DMeshFlags flags = 0);
+// [ADAPT_IMGUI_BUNDLE]
+#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
+    IMPLOT3D_API void PlotMesh(const char* label_id, const ImPlot3DPoint* vtx, const unsigned int* idx, int vtx_count, int idx_count, ImPlot3DMeshFlags flags = 0);
+#endif
+#ifdef IMGUI_BUNDLE_PYTHON_API
+    using UInt = unsigned int;
+    struct Mesh
+    {
+        std::vector<ImPlot3DPoint> Points;
+        std::vector<UInt> Idx;
+    };
+    IMPLOT3D_API void PlotMesh(const char* label_id, const Mesh& mesh, ImPlot3DMeshFlags flags=0);
+#endif
+// [/ADAPT_IMGUI_BUNDLE]
 
 // Plots a centered text label at point x,y,z. It is possible to set the text angle in radians and offset in pixels
 IMPLOT3D_API void PlotText(const char* text, float x, float y, float z, float angle = 0.0f, const ImVec2& pix_offset = ImVec2(0, 0));
