@@ -37,6 +37,10 @@
 #include "imgui.h"
 #ifndef IMGUI_DISABLE
 
+#ifdef IMGUI_BUNDLE_PYTHON_API
+#include <vector>
+#endif
+
 //-----------------------------------------------------------------------------
 // [SECTION] Macros and Defines
 //-----------------------------------------------------------------------------
@@ -651,7 +655,9 @@ IMPLOT3D_TMP void PlotQuad(const char* label_id, const T* xs, const T* ys, const
 IMPLOT3D_TMP void PlotSurface(const char* label_id, const T* xs, const T* ys, const T* zs, int x_count, int y_count, double scale_min = 0.0,
                               double scale_max = 0.0, const ImPlot3DSpec& spec = ImPlot3DSpec());
 
-// Plots a 3D mesh given vertex positions as separate coordinate arrays and an index buffer.
+// [ADAPT_IMGUI_BUNDLE]
+#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
+// Plots a 3D mesh given vertex positions and indices. Triangles are defined by the index buffer (every 3 indices form a triangle)
 // Triangles are defined by the index buffer (every 3 indices form a triangle).
 // Spec.Offset and Spec.Stride apply to the vertex coordinate arrays only, not to the index buffer.
 // Color array semantics:
@@ -663,6 +669,17 @@ IMPLOT3D_TMP void PlotSurface(const char* label_id, const T* xs, const T* ys, co
 //   - MarkerFillColors / MarkerLineColors: vtx_count entries, one per unique vertex.
 IMPLOT3D_TMP void PlotMesh(const char* label_id, const T* vtx_xs, const T* vtx_ys, const T* vtx_zs, const unsigned int* idxs, int vtx_count,
                            int idx_count, const ImPlot3DSpec& spec = ImPlot3DSpec());
+#endif
+#ifdef IMGUI_BUNDLE_PYTHON_API
+    using UInt = unsigned int;
+    struct Mesh
+    {	
+        std::vector<ImPlot3DPoint> Points;
+		std::vector<UInt> Idx;  // Triangles are defined by the index buffer (every 3 indices form a triangle)
+    };
+    IMPLOT3D_API void PlotMesh(const char* label_id, const Mesh& mesh, const ImPlot3DSpec& spec = ImPlot3DSpec());
+#endif
+// [/ADAPT_IMGUI_BUNDLE]
 
 // Plots a rectangular image in 3D defined by its center and two direction vectors (axes).
 // #center is the center of the rectangle in plot coordinates.
