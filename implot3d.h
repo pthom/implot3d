@@ -37,6 +37,10 @@
 #include "imgui.h"
 #ifndef IMGUI_DISABLE
 
+#ifdef IMGUI_BUNDLE_PYTHON_API
+#include <vector>
+#endif
+
 //-----------------------------------------------------------------------------
 // [SECTION] Macros and Defines
 //-----------------------------------------------------------------------------
@@ -435,8 +439,20 @@ IMPLOT3D_TMP void PlotQuad(const char* label_id, const T* xs, const T* ys, const
 IMPLOT3D_TMP void PlotSurface(const char* label_id, const T* xs, const T* ys, const T* zs, int x_count, int y_count, double scale_min = 0.0,
                               double scale_max = 0.0, ImPlot3DSurfaceFlags flags = 0, int offset = 0, int stride = sizeof(T));
 
-IMPLOT3D_API void PlotMesh(const char* label_id, const ImPlot3DPoint* vtx, const unsigned int* idx, int vtx_count, int idx_count,
-                           ImPlot3DMeshFlags flags = 0);
+// [ADAPT_IMGUI_BUNDLE]
+#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
+    IMPLOT3D_API void PlotMesh(const char* label_id, const ImPlot3DPoint* vtx, const unsigned int* idx, int vtx_count, int idx_count, ImPlot3DMeshFlags flags = 0);
+#endif
+#ifdef IMGUI_BUNDLE_PYTHON_API
+    using UInt = unsigned int;
+    struct Mesh
+    {
+        std::vector<ImPlot3DPoint> Points;
+        std::vector<UInt> Idx;
+    };
+    IMPLOT3D_API void PlotMesh(const char* label_id, const Mesh& mesh, ImPlot3DMeshFlags flags=0);
+#endif
+// [/ADAPT_IMGUI_BUNDLE]
 
 // Plots a rectangular image in 3D defined by its center and two direction vectors (axes).
 // #center is the center of the rectangle in plot coordinates.
