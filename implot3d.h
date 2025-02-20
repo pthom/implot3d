@@ -490,6 +490,7 @@ IMPLOT3D_API ImDrawList* GetPlotDrawList();
 
 // Get current style
 IMPLOT3D_API ImPlot3DStyle& GetStyle();
+IMPLOT3D_API void SetStyle(const ImPlot3DStyle& style);
 
 // Set color styles
 IMPLOT3D_API void StyleColorsAuto(ImPlot3DStyle* dst = nullptr);    // Set colors with ImGui style
@@ -798,10 +799,13 @@ struct ImPlot3DStyle {
     ImVec2 LegendSpacing;      // Spacing between legend entries
     // Colors
     ImVec4 Colors[ImPlot3DCol_COUNT];
+    inline ImVec4 GetColor(ImPlot3DCol idx) const { return Colors[idx]; }
+    inline void SetColor(ImPlot3DCol idx, const ImVec4& col) { Colors[idx] = col; }
     // Colormap
     ImPlot3DColormap Colormap; // The current colormap. Set this to either an ImPlot3DColormap_ enum or an index returned by AddColormap
     // Constructor
     IMPLOT3D_API ImPlot3DStyle();
+    ImPlot3DStyle(const ImPlot3DStyle& other) = default;
 };
 
 //-----------------------------------------------------------------------------
