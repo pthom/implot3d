@@ -580,6 +580,9 @@ IMPLOT3D_API ImVec4 SampleColormap(float t, ImPlot3DColormap cmap = IMPLOT3D_AUT
 
 // Shows the ImPlot3D demo window
 IMPLOT3D_API void ShowDemoWindow(bool* p_open = nullptr);
+// Shows all ImPlot3D demos, without enclosing window
+IMPLOT3D_API void ShowAllDemos();
+
 
 // Shows ImPlot3D style editor block (not a window)
 IMPLOT3D_API void ShowStyleEditor(ImPlot3DStyle* ref = nullptr);
