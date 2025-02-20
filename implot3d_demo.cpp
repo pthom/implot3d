@@ -766,6 +766,46 @@ void DemoHeader(const char* label, void (*demo)()) {
     }
 }
 
+// Bundle: ShowAllDemos is extracted from ShowDemoWindow,
+// so that it can be used without creating an ImGui window.
+void ShowAllDemos()
+{
+    ImGui::Text("ImPlot3D says olá! (%s)", IMPLOT3D_VERSION);
+    ImGui::Spacing();
+    if (ImGui::BeginTabBar("ImPlot3DDemoTabs"))
+    {
+        if (ImGui::BeginTabItem("Plots")) {
+            DemoHeader("Line Plots", DemoLinePlots);
+            DemoHeader("Scatter Plots", DemoScatterPlots);
+            DemoHeader("Triangle Plots", DemoTrianglePlots);
+            DemoHeader("Quad Plots", DemoQuadPlots);
+            DemoHeader("Surface Plots", DemoSurfacePlots);
+            DemoHeader("Mesh Plots", DemoMeshPlots);
+            DemoHeader("Realtime Plots", DemoRealtimePlots);
+            DemoHeader("Markers and Text", DemoMarkersAndText);
+            DemoHeader("NaN Values", DemoNaNValues);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Axes")) {
+            DemoHeader("Box Scale", DemoBoxScale);
+            DemoHeader("Box Rotation", DemoBoxRotation);
+            DemoHeader("Tick Labels", DemoTickLabels);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Custom")) {
+            DemoHeader("Custom Styles", DemoCustomStyles);
+            DemoHeader("Custom Rendering", DemoCustomRendering);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Help")) {
+            DemoHelp();
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
+}
+
+
 void ShowDemoWindow(bool* p_open) {
     static bool show_implot3d_style_editor = false;
     static bool show_imgui_metrics = false;
@@ -803,40 +843,8 @@ void ShowDemoWindow(bool* p_open) {
         ImGui::EndMenuBar();
     }
 
-    ImGui::Text("ImPlot3D says olá! (%s)", IMPLOT3D_VERSION);
+    ShowAllDemos();
 
-    ImGui::Spacing();
-
-    if (ImGui::BeginTabBar("ImPlot3DDemoTabs")) {
-        if (ImGui::BeginTabItem("Plots")) {
-            DemoHeader("Line Plots", DemoLinePlots);
-            DemoHeader("Scatter Plots", DemoScatterPlots);
-            DemoHeader("Triangle Plots", DemoTrianglePlots);
-            DemoHeader("Quad Plots", DemoQuadPlots);
-            DemoHeader("Surface Plots", DemoSurfacePlots);
-            DemoHeader("Mesh Plots", DemoMeshPlots);
-            DemoHeader("Realtime Plots", DemoRealtimePlots);
-            DemoHeader("Markers and Text", DemoMarkersAndText);
-            DemoHeader("NaN Values", DemoNaNValues);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Axes")) {
-            DemoHeader("Box Scale", DemoBoxScale);
-            DemoHeader("Box Rotation", DemoBoxRotation);
-            DemoHeader("Tick Labels", DemoTickLabels);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Custom")) {
-            DemoHeader("Custom Styles", DemoCustomStyles);
-            DemoHeader("Custom Rendering", DemoCustomRendering);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Help")) {
-            DemoHelp();
-            ImGui::EndTabItem();
-        }
-        ImGui::EndTabBar();
-    }
     ImGui::End();
 }
 
