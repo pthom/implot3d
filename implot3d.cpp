@@ -107,10 +107,15 @@ void AddTextRotated(ImDrawList* draw_list, ImVec2 pos, float angle, ImU32 col, c
     ImGuiContext& g = *GImGui;
     ImFont* font = g.Font;
 
+#ifdef IMGUI_HAS_TEXTURES
+    ImFontBaked* fontBaked = g.Font->GetFontBaked(g.FontSize);
+    const float scale = g.FontSize / fontBaked->Size;
+#else
+    const float scale = g.FontSize / font->FontSize;
+#endif
+
     // Align to be pixel perfect
     pos = ImFloor(pos);
-
-    const float scale = g.FontSize / font->FontSize;
 
     // Measure the size of the text in unrotated coordinates
     ImVec2 text_size = font->CalcTextSizeA(g.FontSize, FLT_MAX, 0.0f, text_begin, text_end, nullptr);
@@ -139,7 +144,11 @@ void AddTextRotated(ImDrawList* draw_list, ImVec2 pos, float angle, ImU32 col, c
                 break;
         }
 
+#ifdef IMGUI_HAS_TEXTURES
+        const ImFontGlyph* glyph = fontBaked->FindGlyph((ImWchar)c);
+#else
         const ImFontGlyph* glyph = font->FindGlyph((ImWchar)c);
+#endif
         if (glyph == nullptr) {
             continue;
         }
