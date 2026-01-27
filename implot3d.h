@@ -443,8 +443,10 @@ IMPLOT3D_API void SetupAxisTicks(ImAxis3D axis, double v_min, double v_max, int 
 // Sets an axis' scale using built-in options
 IMPLOT3D_API void SetupAxisScale(ImAxis3D axis, ImPlot3DScale scale);
 
+#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
 // Sets an axis' scale using user supplied forward and inverse transforms
 IMPLOT3D_API void SetupAxisScale(ImAxis3D axis, ImPlot3DTransform forward, ImPlot3DTransform inverse, void* data = nullptr);
+#endif
 
 // Sets an axis' limits constraints. The axis will be constrained to never go below #v_min or above #v_max
 IMPLOT3D_API void SetupAxisLimitsConstraints(ImAxis3D axis, double v_min, double v_max);
