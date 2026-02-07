@@ -1918,7 +1918,15 @@ void ShowAllDemos() {
     }
 }
 
-void ShowDemoWindow(bool* p_open) {
+void ShowDemoWindow(bool* p_open)
+{
+        ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(600, 750), ImGuiCond_FirstUseEver);
+        ShowDemoWindow_MaybeDocked(true, p_open);
+}
+
+void  ShowDemoWindow_MaybeDocked(bool create_window, bool* p_open, ImGuiWindowFlags initial_extra_flags, ImVec2 window_pos, ImVec2 window_size)
+{
     static bool show_implot3d_metrics = false;
     static bool show_implot3d_style_editor = false;
     static bool show_implot3d_about = false;
@@ -1945,9 +1953,14 @@ void ShowDemoWindow(bool* p_open) {
     if (show_imgui_demo)
         ImGui::ShowDemoWindow(&show_imgui_demo);
 
-    ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowSize(ImVec2(600, 750), ImGuiCond_FirstUseEver);
-    ImGui::Begin("ImPlot3D Demo", p_open, ImGuiWindowFlags_MenuBar);
+    if (create_window)
+    {
+        if (window_size.x > 0 && window_size.y > 0) {
+            ImGui::SetNextWindowPos(window_pos);
+            ImGui::SetNextWindowSize(window_size);
+        }
+        ImGui::Begin("ImPlot3D Demo", p_open, ImGuiWindowFlags_MenuBar | initial_extra_flags);
+    }
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("Tools")) {
             ImGui::MenuItem("Metrics", nullptr, &show_implot3d_metrics);
@@ -1962,7 +1975,9 @@ void ShowDemoWindow(bool* p_open) {
         ImGui::EndMenuBar();
     }
     ShowAllDemos();
-    ImGui::End();
+
+    if (create_window)
+        ImGui::End();
 }
 
 //-----------------------------------------------------------------------------
