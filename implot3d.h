@@ -396,7 +396,13 @@ struct ImPlot3DSpec {
     ImPlot3DItemFlags Flags =
         ImPlot3DItemFlags_None; // Optional item flags; can be composed from common ImPlot3DItemFlags and/or specialized ImPlot3DXFlags
 
+#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
+    // Bundle: omit default constructor to generation of named constructor in Python (spec = ImPlotSpec(line_weight=..., marker=..., etc.) instead of spec = ImPlotSpec() and then setting properties manually)
     ImPlot3DSpec() {}
+#endif
+
+#ifdef IMGUI_BUNDLE_PYTHON_UNSUPPORTED_API
+    // We don't publish those in Python. Use named constructor instead.
 
     // Construct a plot item specification from (ImPlot3DProp,value) pairs in any order
     // E.g. ImPlot3DSpec(ImPlot3DProp_LineColor, my_color, ImPlot3DProp_Marker, ImPlot3DMarker_Circle)
@@ -443,6 +449,7 @@ struct ImPlot3DSpec {
         }
         IM_ASSERT(0 && "User provided an ImPlot3DProp which cannot be set from ImVec4 value!");
     }
+#endif
 };
 
 //-----------------------------------------------------------------------------
