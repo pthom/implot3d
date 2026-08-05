@@ -152,12 +152,12 @@ struct ImDrawList3D {
     ImDrawVert* _VtxWritePtr; // [Internal] point within VtxBuffer.Data after each add command (to avoid using the ImVector<> operators too much)
     ImDrawIdx* _IdxWritePtr;  // [Internal] point within IdxBuffer.Data after each add command (to avoid using the ImVector<> operators too much)
     double* _ZWritePtr;       // [Internal] point within ZBuffer.Data after each add command (to avoid using the ImVector<> operators too much)
-    ImDrawListFlags _Flags;   // [Internal] draw list flags
+    ImDrawFlags _Flags;       // [Internal] draw list flags
     ImVector<ImTextureBufferItem> _TextureBuffer; // [Internal] buffer for SetTexture/ResetTexture
     ImDrawListSharedData* _SharedData;            // [Internal] shared draw list data
 
     ImDrawList3D() {
-        _Flags = ImDrawListFlags_None;
+        _Flags = ImDrawFlags_None;
         _SharedData = nullptr;
         ResetBuffers();
     }
