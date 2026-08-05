@@ -80,6 +80,11 @@
     } while (0)
 
 IMPLOT3D_INLINE void GetLineRenderProps(const ImDrawList3D& draw_list_3d, float& half_weight, ImVec2& tex_uv0, ImVec2& tex_uv1) {
+#if IMGUI_VERSION_NUM >= 19292
+    float fringe;
+    ImPlot3D::GetPlotDrawList()->_SelectFringeTexture(half_weight * 2.0f, &tex_uv0, &tex_uv1, &fringe, draw_list_3d._Flags);
+    half_weight += fringe * 0.5f;
+#else
     const bool aa = ImPlot3D::ImHasFlag(draw_list_3d._Flags, ImDrawListFlags_AntiAliasedLines) &&
                     ImPlot3D::ImHasFlag(draw_list_3d._Flags, ImDrawListFlags_AntiAliasedLinesUseTex);
     if (aa) {
@@ -90,6 +95,7 @@ IMPLOT3D_INLINE void GetLineRenderProps(const ImDrawList3D& draw_list_3d, float&
     } else {
         tex_uv0 = tex_uv1 = draw_list_3d._SharedData->TexUvWhitePixel;
     }
+#endif
 }
 
 //-----------------------------------------------------------------------------
