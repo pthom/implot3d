@@ -1600,6 +1600,9 @@ void PlotMesh(const char* label_id, const Mesh& mesh, const ImPlot3DSpec& spec)
     s.Stride = (int)sizeof(ImPlot3DPoint);  // Trick to avoid splitting the data: use Stride
     const ImPlot3DPoint* vtx = mesh.Points.data();
     int vtx_count = (int)mesh.Points.size();
+    // The indices come from Python code: an index past the points would read out of bounds
+    for (unsigned int idx : mesh.Idx)
+        IM_ASSERT(idx < mesh.Points.size() && "PlotMesh: an index of mesh.Idx is past mesh.Points");
 
     PlotMesh<double>(label_id, &vtx->x, &vtx->y, &vtx->z, mesh.Idx.data(), vtx_count, (int)mesh.Idx.size(), s);
 }
