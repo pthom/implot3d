@@ -140,7 +140,7 @@ implot3d files. You can read releases logs https://github.com/brenocq/implot3d/r
 #include "implot3d.h"
 #include "implot3d_internal.h"
 #ifdef IMGUI_BUNDLE_WITH_IMGUI_KIT
-#include "imgui_kit/imgui_kit.h"  // ImGuiTouch::SetRectTakesPinch
+#include "imgui_kit/imgui_kit.h"  // ImGuiTouch::SetRectPinchAsWheel
 #endif
 
 #ifndef IMGUI_DISABLE
@@ -2381,7 +2381,8 @@ void HandleInput(ImPlot3DPlot& plot) {
 #ifdef IMGUI_BUNDLE_WITH_IMGUI_KIT
     // On a touch screen, a pinch on the plot zooms it, as the wheel does (10% per notch), and two fingers moved
     // together rotate it (a right drag)
-    ImGuiTouch::SetRectTakesPinch(plot.PlotRect.Min, plot.PlotRect.Max, 0.1f, ImGuiMouseButton_Right);
+    ImGuiTouch::SetRectPinchAsWheel(plot.PlotRect.Min, plot.PlotRect.Max, 1.1f, ImGuiTouchPinchDelivery_WheelNotches);
+    ImGuiTouch::SetRectTwoFingerPanAsMouseDrag(plot.PlotRect.Min, plot.PlotRect.Max, ImGuiMouseButton_Right);
 #endif
     if (ImHasFlag(plot.Flags, ImPlot3DFlags_NoInputs))
         return;
