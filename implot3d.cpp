@@ -2738,7 +2738,9 @@ void HandleInput(ImPlot3DPlot& plot) {
 
     // Handle zoom with mouse wheel
     if (plot.Hovered && allow_zoom) {
+        // Both wheel axes: a trackpad's zoom gesture has a sideways part, which would scroll the window
         ImGui::SetKeyOwner(ImGuiKey_MouseWheelY, plot.ID);
+        ImGui::SetKeyOwner(ImGuiKey_MouseWheelX, plot.ID);
         if (ImGui::IsMouseDown(ImGuiMouseButton_Middle) || IO.MouseWheel != 0.0f) {
             float delta = ImGui::IsMouseDown(ImGuiMouseButton_Middle) ? (-0.01f * IO.MouseDelta.y) : (-0.1f * IO.MouseWheel);
             float zoom_rate = delta; // Positive = zoom in, negative = zoom out
