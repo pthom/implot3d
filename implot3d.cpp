@@ -139,8 +139,8 @@ implot3d files. You can read releases logs https://github.com/brenocq/implot3d/r
 
 #include "implot3d.h"
 #include "implot3d_internal.h"
-#ifdef IMGUI_BUNDLE_WITH_IMGUI_KIT
-#include "imgui_kit/imgui_kit.h"  // ImGuiTouch::SetRectPinchAsWheel
+#ifdef IMGUI_BUNDLE_WITH_IMGUI_TOUCH
+#include "imgui_touch/imgui_touch.h"  // ImGuiTouch::SetRectPinchAsWheel
 #endif
 
 #ifndef IMGUI_DISABLE
@@ -2390,7 +2390,7 @@ ImPlot3DRay NDCRayToPlotRay(const ImPlot3DRay& ray) {
 static const float MOUSE_CURSOR_DRAG_THRESHOLD = 5.0f;
 
 void HandleInput(ImPlot3DPlot& plot) {
-#ifdef IMGUI_BUNDLE_WITH_IMGUI_KIT
+#ifdef IMGUI_BUNDLE_WITH_IMGUI_TOUCH
     // On a touch screen, a pinch on the plot zooms it, as the wheel does (10% per notch), and two fingers moved
     // together rotate it (a right drag)
     ImGuiTouch::SetRectPinchAsWheel(plot.PlotRect.Min, plot.PlotRect.Max, 1.1f, ImGuiTouchPinchDelivery_WheelNotches);
